@@ -1,0 +1,19 @@
+{
+  "name": "project-service",
+  "version": "1.0.0",
+  "description": "micro service for retrieving the software projects",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest --no-watchman"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.1",
+    "mongoose": "^4.12.2"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1"
+  }
+}
