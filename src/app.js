@@ -1,6 +1,7 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
-const {projects} = require('./dataStore/projects');
+const db = require('./dataStore/db');
+const Project = require('./dataStore/ProjectSchema');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use((req, res, next) => {
@@ -13,7 +14,10 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/projects', (req, res) => {
-  res.send(projects);
+  Project.find({}, (error, projects) => {
+    if (error) return res.status(500).send("There was a problem finding projects");
+    return res.status(200).send(projects);
+  });
 });
 
 app.post('/projects/', (req, res) => {
