@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://a-mantell:whatwhatyo@ds127842.mlab.com:27842/apitest',
+mongoose.connect('mongodb://someconnectionstring/api',
   {useMongoClient: true}
 );
