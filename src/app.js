@@ -30,10 +30,11 @@ app.post('/projects/', (req, res) => {
 
 app.get('/projects/:id', (req, res) => {
   const id = checkForValidId(req.params.id);
-  
-  const chosenProject = projects.filter(project => project.id === id);
 
-  sendProjectOrError(chosenProject[0], res);
+  Project.find({id}, (error, project) => {
+    if (error) return res.status(500).send("Unable to retrieve project");
+    return res.status(200).send(project);
+  });
 });
 
 // app.put('', (req, res) => {
