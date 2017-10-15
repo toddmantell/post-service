@@ -4,8 +4,10 @@ const db = require('./dataStore/db');
 const Project = require('./dataStore/ProjectSchema');
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());//without this, application/json will not get processed https://stackoverflow.com/questions/38294730/express-js-post-req-body-empty
 app.use((req, res, next) => {
   console.log(`Request for ${req.path} received from ${req.ip} at ${new Date()}`);
+  console.log('body', req.body);  
   next();
 });
 
@@ -25,38 +27,43 @@ app.post('/projects/', (req, res) => {
 
   console.log(newProject);
   res.status(201).send('ok');
-  //projects.push({})// Would be nice to not push.  Also need the request body, not the id
 });
 
 app.get('/projects/:id', (req, res) => {
   const id = checkForValidId(req.params.id);
 
   Project.find({id}, (error, project) => {
-    if (error) return res.status(500).send("Unable to retrieve project");
+    if (error) return res.status(500).send("Unable to retrieve project.");
     return res.status(200).send(project);
   });
 });
 
-// app.put('', (req, res) => {
-//   // in here, need to either get the existing, or just overwrite based on the id passed in
-// });
+app.put('/projects/:id', (req, res) => {
+  const id = checkForValidId(req.params.id);
 
-// app.post('/projects/', (req, res) => {
-//   const id = checkForValidId(req.params.id);
+  Project.findOne({id}, (error, project) => {
+    if (error) return res.status(500).send("Unable to update project.");
+    else if (project) { 
+      updateProject(project, req, res);
+    }
+  });
+});
 
-//   projects.push({})// Would be nice to not push.  Also need the request body, not the id
-// });
+app.post('/projects/', (req, res) => {
+  const id = checkForValidId(req.params.id);
+
+  projects.push({})// Would be nice to not push.  Also need the request body, not the id
+});
 
 function checkForValidId(id) {
   return parseInt(id) || 0;// checks to see if left side is truthy, if yes return it, otherwise return what is on the right
 }
 
-function sendProjectOrError(chosenProject, res) {
-  if (chosenProject) {
-    res.json(chosenProject);
-  } else {
-    res.send('Unable to retrieve a project. Please supply a valid id.');
-  } 
+function updateProject(project, req, res) {
+  Project.findByIdAndUpdate(project._id, req.body, {new: true}, (error, project) => {
+    if (error) return res.status(500).send("Unable to update project.");
+    res.status(200).send(project);
+  });
 }
 
 module.exports = app;
