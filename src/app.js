@@ -4,8 +4,8 @@ const db = require('./dataStore/db');
 const Project = require('./dataStore/ProjectSchema');
 const {baseUrl} = require('./config');
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());//without this, application/json will not get processed https://stackoverflow.com/questions/38294730/express-js-post-req-body-empty
+configureBodyParser();
+
 app.use((req, res, next) => {
   console.log(`Request for ${req.path} received from ${req.ip} at ${new Date()}`);  
   next();
@@ -25,7 +25,9 @@ app.get('/projects', async (req, res) => {
 app.post('/projects/', async (req, res) => {
   const allProjects = await getAllProjects();
 
-  const newProject = Object.assign({}, req.body, {id: allProjects.length + 1});
+  const lastProject = allProjects[allProjects.length - 1];
+
+  const newProject = Object.assign({}, req.body, {id: lastProject.id + 1});
 
   Project.create(newProject, (error, project) => {
     if (error) return res.status(500).send("There was an error when attempting to add the new project.");
@@ -37,7 +39,7 @@ app.get('/projects/:id', (req, res) => {
   const id = checkForValidId(req.params.id);
 
   Project.find({id}, (error, project) => {
-    if (error) return res.status(500).send("Unable to retrieve project.");
+    if (error) return res.status(404).send("Project not found.");
     return res.status(200).send(project);
   });
 });
@@ -46,12 +48,18 @@ app.put('/projects/:id', (req, res) => {
   const id = checkForValidId(req.params.id);
 
   Project.findOne({id}, (error, project) => {
-    if (error) return res.status(500).send("Unable to update project.");
+    if (error) return res.status(404).send("Project not found.");
     else if (project) { 
       updateProject(project, req, res);
     }
   });
 });
+
+
+function configureBodyParser() {
+  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.json());//without this, application/json will not get processed https://stackoverflow.com/questions/38294730/express-js-post-req-body-empty
+}
 
 async function getAllProjects() {  
   const allProjects = await Project.find({}, (error, projects) => {
