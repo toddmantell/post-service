@@ -20,7 +20,7 @@ Router.post('/', async (req, res) => {
 
   Project.create(newProject, (error, project) => {
     if (error) return res.status(500).send("There was an error when attempting to add the new project.");
-    return res.status(201).send(`${baseUrl}/projects/${newProject.id}`);
+    return res.status(201).json(newProject);
   });
 });
 
@@ -28,8 +28,9 @@ Router.get('/:id', (req, res) => {
   const id = checkForValidId(req.params.id);
 
   Project.find({id}, (error, project) => {
-    if (error) return res.status(404).send("Project not found.");
-    return res.status(200).send(project);
+    if (project.length) return res.status(200).send(project);
+    return res.status(404).send("Project not found.");
+    
   });
 });
 
