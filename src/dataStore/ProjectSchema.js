@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
 
-const ProjectSchema = new mongoose.Schema({
+const PostSchema = new mongoose.Schema({
   id: Number,
-  name: String,
-  team: {
-    name: String,
-    lead: String,
-    qa: [String],
-    developers: [String]
-  }
+  title: String,
+	body: String,
+	author: String
 });
 
-mongoose.model('Project', ProjectSchema);
-module.exports = mongoose.model('Project');
+mongoose.model('Post', PostSchema);
+module.exports = mongoose.model('Post');

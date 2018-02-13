@@ -1,6 +1,6 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
-const ProjectsController = require('./ProjectsController');
+const PostsController = require('./PostsController');
 
 configureBodyParser();
 
@@ -13,7 +13,7 @@ app.get('/', (req, res, next) => {
   res.send('Service is up!');
 });
 
-app.use('/projects', ProjectsController);
+app.use('/posts', PostsController);
 
 
 function configureBodyParser() {
