@@ -1,6 +1,6 @@
 # project-service
 
-A simple Express microservice to serve the innov8 graphQL Server
+A simple Express microservice to serve the definitely-not-reddit graphQL Server
 
 ## Getting Started
 
@@ -36,5 +36,5 @@ nps is executing `default` : nodemon src/server
 [nodemon] to restart at any time, enter `rs`
 [nodemon] watching: *.*
 [nodemon] starting `node src/server server.js`
-listening on port: 4000
+listening on port: 5000
 ```

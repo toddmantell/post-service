@@ -1,4 +1,4 @@
 module.exports = {
-  port: 4000,
-  baseUrl: `http://localhost:${4000}`
+  port: 5000,
+  baseUrl: `http://localhost:${this.port}`
 };

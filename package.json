@@ -1,10 +1,10 @@
 {
-  "name": "project-service",
+  "name": "post-service",
   "version": "1.0.0",
-  "description": "micro service for retrieving the software projects",
+  "description": "micro service for retrieving the definitely-not-reddit posts",
   "main": "server.js",
   "scripts": {
-    "test": "jest --no-watchman"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
