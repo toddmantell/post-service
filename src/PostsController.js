@@ -16,7 +16,7 @@ Router.post('/', async (req, res) => {
 
   const lastPost = allPosts[allPosts.length - 1];
 
-  const newPost = Object.assign({}, req.body.post, {id: lastPost.id + 1});
+  const newPost = Object.assign({}, req.body, {id: lastPost.id + 1});
 
   Post.create(newPost, (error, post) => {
     if (error) return res.status(500).send("There was an error when attempting to add the new post.");
