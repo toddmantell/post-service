@@ -4,12 +4,14 @@
   "description": "micro service for retrieving the definitely-not-reddit posts",
   "main": "server.js",
   "scripts": {
+    "start": "node -r dotenv/config src/server",
     "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "dotenv": "^6.0.0",
     "express": "^4.16.1",
     "mongoose": "^4.12.2"
   },
